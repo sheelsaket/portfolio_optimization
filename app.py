@@ -358,7 +358,7 @@ def generate_outputs(
             investment_amount = int(investment_amount.replace("$", ""))
             print(assets, investment_amount, stockStartDate, stockEndDate)
             df_func, cleaned_weights, portfolio_performance, allocation, leftover, latest_prices = run_optimization_engine(assets, stockStartDate, stockEndDate, investment_amount)
-
+            print('return successful')
 #             pd.options.plotting.backend = "plotly"
 #             print(df_func)
     #         df = pd.DataFrame(dict(a=[1,3,2], b=[3,2,1]))
@@ -377,7 +377,8 @@ def generate_outputs(
                     )),
                     )
             fig.update_layout(title="Performance of the Selected Stocks")
-
+            # fig.show()
+            print('Fig successful')
             
             invested = {}
             for key in allocation.keys():
@@ -396,6 +397,8 @@ def generate_outputs(
                     )
                 ))
             fig2.update_layout(barmode='stack', title='This is how you should split your investment')
+            # fig2.show()
+            print('Fig2 successful')
 
             allo_df = pd.Series(allocation).reset_index().rename(columns = {'index': 'stocks', 0:'shares_num'})
             
@@ -410,17 +413,15 @@ def generate_outputs(
                     )),
                     )
             fig3.update_layout(title="No of Shares to Purchase")
-
-
+            # fig3.show()
+            print('Fig3 successful')
 
             total_clicks = total_clicks + 1
-        
-        except:
-            pass
-        
-        
-        return fig, fig2, fig3, str(round(portfolio_performance[0]*100,2)) + "%", str(round(portfolio_performance[1]*100,2)) + "%", str(round(portfolio_performance[2],2)), get_sentiments(portfolio_performance[0]*100)
+            return fig, fig2, fig3, str(round(portfolio_performance[0]*100,2)) + "%", str(round(portfolio_performance[1]*100,2)) + "%", str(round(portfolio_performance[2],2)), get_sentiments(portfolio_performance[0]*100)
 
+        except:
+            return False
+      
 
 if __name__ == '__main__':
     app.run_server(debug=False)
