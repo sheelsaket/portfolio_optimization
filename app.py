@@ -280,19 +280,21 @@ def run_optimization_engine(assets, stockStartDate, stockEndDate, investment_amo
     ef.portfolio_performance(verbose=True)
 
     cleaned_weights = remove_negative_cleaned_wts(cleaned_weights)
-#     print(cleaned_weights)
+    print('cleaned_weights')
     
     # Get the discrete allocation of each share per stock
     
     latest_prices = get_latest_prices(df)
-#     print(latest_prices)
+    print('latest_prices')
     weights = cleaned_weights
     da = DiscreteAllocation(weights,latest_prices,total_portfolio_value = investment_amount)
 
     allocation,leftover = da.lp_portfolio()
-#     print('Discrete allocation: ',allocation)
-#     print('Funds remaining: ${:.2f}'.format(leftover))
+    print('Discrete allocation: ',allocation)
+    print('Funds remaining: ${:.2f}'.format(leftover))
     
+    print("Optimization Successful")
+
     return df, cleaned_weights, ef.portfolio_performance(verbose=True), allocation, leftover, latest_prices
 
 
