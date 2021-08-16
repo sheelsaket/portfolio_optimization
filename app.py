@@ -130,7 +130,7 @@ app.layout = html.Div(
                             start_date_placeholder_text='MMM Do, YY'
                         ),
                         
-                        html.P(
+                        html.Div([html.P(
                             "\n\n\n\nEnter the Ticker Symbols of Stocks you want to purchase:",
                             className="ticker-labels",
                         ),
@@ -153,8 +153,9 @@ app.layout = html.Div(
                         ),
                             html.Button('Submit', id='textarea-state-example-button', n_clicks=0),
                             html.Div(id='textarea-state-example-output', style={'whiteSpace': 'pre-line'})
+                        ])
+
                         ]),
-                        
                     
                     ],
                     className="pretty_container four columns",
@@ -327,12 +328,16 @@ def get_sentiments(ann_ret):
      Output("waterText", "children")
     ],
     [
-        Input("textarea-state-example", "value"),
+        # Input("textarea-state-example", "value"),
         Input('my-date-picker-range', 'start_date'),
         Input('my-date-picker-range', 'end_date'),
-        Input("investment", "value"),
+        # Input("investment", "value"),
         Input('textarea-state-example-button', 'n_clicks')
     ]
+    ,
+    [
+    State('textarea-state-example', 'value'),
+    State("investment", "value")]
 #     ,
     
 #     [State("lock_selector", "value"), State("main_graph", "relayoutData")],
@@ -340,7 +345,7 @@ def get_sentiments(ann_ret):
 
 
 def generate_outputs(
-    assets, stockStartDate, stockEndDate, investment_amount, n_clicks
+     stockStartDate, stockEndDate, n_clicks, assets, investment_amount
 ):
     cols = plotly.colors.DEFAULT_PLOTLY_COLORS
     i = 0
@@ -350,12 +355,12 @@ def generate_outputs(
         i = i+ 1
 
     
-    global total_clicks
-    print(n_clicks, total_clicks)
+    # global total_clicks
+    # print(n_clicks, total_clicks)
     if n_clicks is None:
         raise PreventUpdate
     
-    elif n_clicks >= total_clicks:
+    elif n_clicks >= 0:#total_clicks:
         try:
             investment_amount = int(investment_amount.replace("$", ""))
             print(assets, investment_amount, stockStartDate, stockEndDate)
@@ -418,7 +423,7 @@ def generate_outputs(
             # fig3.show()
             print('Fig3 successful')
 
-            total_clicks = total_clicks + 1
+            # total_clicks = total_clicks + 1
             return fig, fig2, fig3, str(round(portfolio_performance[0]*100,2)) + "%", str(round(portfolio_performance[1]*100,2)) + "%", str(round(portfolio_performance[2],2)), get_sentiments(portfolio_performance[0]*100)
 
         except:
