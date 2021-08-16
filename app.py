@@ -33,6 +33,8 @@ import random
 import plotly
 
 app = dash.Dash(__name__)
+server = app.server
+
 app.title = "Portfolio Optimization | Sheel Saket"
 
 total_clicks = 0
